@@ -1,0 +1,52 @@
+.vertical-menu {
+    width: 200px; /* Set a width if you like */
+    position:absolute;
+    top: 50px;
+  }
+  
+  .vertical-menu a {
+    background-color: #eee; /* Grey background color */
+    color: black; /* Black text color */
+    display: block; /* Make the links appear below each other */
+    padding: 12px; /* Add some padding */
+    text-decoration: none; /* Remove underline from links */
+  }
+  
+  .vertical-menu a:hover {
+    background-color: #ccc; /* Dark grey background on mouse-over */
+  }
+  
+  .vertical-menu a.active {
+    background-color: #04AA6D; /* Add a green color to the "active/current" link */
+    color: white;
+  }
+
+  .message{
+    justify-content: center;
+    padding: 12px;
+  }
+  
+  .content-container{
+    padding-top: 42px;
+    padding-left: 100px;
+  }
+  .main-content{
+    text-align: center;
+    padding: 20px;
+    border:3px solid#04AA6D;
+    justify-content: center;
+    align-items: center;
+    
+  }
+
+  .title{
+    color:green;
+  }
+
+  label {
+    color:ghostwhite;
+  }
+
+  body{
+    background: #151515;
+  }
