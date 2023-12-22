@@ -2,23 +2,19 @@
 <html>
 <head>
     <title>Search Results</title>
+    <link rel="stylesheet" type="text/css" href="homestyle.css"
 </head>
 <body>
-    <h1>Search Results</h1>
-
+    <div class = "content-container">
+        <div class = "main-content">
+        <h1 class = "title">Search Results</h1>
     <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Retrieve and sanitize search inputs
-        $department = htmlspecialchars($_POST["department"]);
-        $coursecode = htmlspecialchars($_POST["coursecode"]);
-        $professor = htmlspecialchars($_POST["professor"]);
-        $semester = htmlspecialchars($_POST["semester"]);
-
+        session_start();
         // Database connection details
-        $servername = "your_servername";
-        $username = "your_username";
-        $password = "your_password";
-        $dbname = "your_database_name";
+        $servername = "127.0.0.1:3307";
+        $username = "root";
+        $dbname = "se250";
+        $password = "";
 
         // Create a database connection
         $conn = new mysqli($servername, $username, $password, $dbname);
@@ -28,45 +24,80 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
-        // Build and execute a SQL query based on the provided criteria
-        $sql = "SELECT * FROM courses WHERE 
-                (department LIKE '%$department%') AND
-                (coursecode LIKE '%$coursecode%') AND
-                (professor LIKE '%$professor%') AND
-                (semester = '$semester')";
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Retrieve and sanitize search inputs
+            $department = htmlspecialchars($_POST["department"]);
+            $coursecode = htmlspecialchars($_POST["coursecode"]);
+            $coursename = htmlspecialchars($_POST["coursename"]);
+            $semester = htmlspecialchars($_POST["semester"]);
 
-        $result = $conn->query($sql);
+            // Build SQL query to search database
+            $sql = "SELECT * FROM course WHERE 1=1";
 
-        if ($result->num_rows > 0) {
-            // Output the results in a table
-            echo "<table border='1'>";
-            echo "<tr><th>Department</th><th>Course Code</th><th>Professor</th><th>Semester</th></tr>";
-
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr><td>" . $row["department"] . "</td><td>" . $row["coursecode"] . "</td><td>" . $row["professor"] . "</td><td>" . $row["semester"] . "</td></tr>";
+            if (!empty($_POST['department'])) {
+                $department = $_POST['department'];
+                $sql .= " AND Department LIKE '%$department%'";
             }
+            if (!empty($_POST['coursecode'])) {
+                $coursecode = $_POST['coursecode'];
+                $sql .= " AND ID = '$coursecode'";
+            }
+            if (!empty($_POST['coursename'])) {
+                $coursename = $_POST['coursename'];
+                $sql .= " AND ClassName LIKE '%$coursename%'";
+            }
+            if (!empty($_POST['semester'])) {
+                $semester = $_POST['semester'];
+                $sql .= " AND Semester = '$semester'";
+            }
+            
+// Execute the query
+$result = $conn->query($sql);
 
-            echo "</table>";
-        } else {
-            echo "No results found.";
+if ($result->num_rows > 0) {
+    // Display table header
+    echo "<div class='table-container'>";
+    echo "<table border='1'>
+            <tr>
+                <th style='color: white'>Course ID</th>
+                <th style='color: white'>Name</th>
+                <th style='color: white'>Department</th>
+                <th style='color: white'>Semester</th>
+            </tr>";
+
+    // Output data of each row
+    while ($row = $result->fetch_assoc()) {
+        // Display table rows with results
+        echo "<tr>
+                <td style='color: white'>" . $row["ID"] . "</td>
+                <td style='color: white'>" . $row["ClassName"] . "</td>
+                <td style='color: white'>" . $row["Department"] . "</td>
+                <td style='color: white'>" . $row["Semester"] . "</td>
+            </tr>";
+    }
+    // Close the table div
+    echo "</div>";
+    // Close the table
+    echo "</table>";
+        } 
+        
+        else {
+            echo "<span style = 'color:ghostwhite;'>No results found.</span>";
         }
 
         $conn->close();
     }
     ?>
-
+        </div>
+    </div>
+<!-- Verical Menu -->
 <div class="vertical-menu">
         <a href="home.php" class="active">Home</a>
         <a href="search.php">Course Search</a>
         <a href="view_schedule.php">View Schedule</a>
         <a href="modify.php">Add/Drop</a>
-        <a href="index.html">Logout</a>
+        <a href="logout.php">Logout</a>
     </div>
 
-    <div class = "content-container">
-        <div class = "main-content">
-            <span style = "color:ghostwhite">Search Results</span>
-        </div>
-    </div>
 </body>
 </html>

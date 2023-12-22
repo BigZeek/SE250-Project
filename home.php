@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +7,7 @@
 <body>
 
     <p><?php
+    session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the "username" field was submitted in the form
     if (isset($_POST["username"])) {
@@ -18,11 +18,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Use the username for a greeting
             $greeting = "Hello, " . $username . "!";
             echo "<div class = 'message'>";
-            echo "<span style = 'color:#04AA6D;'>$greeting</span>";
+            echo "<span style = 'color:#00A19C;'>$greeting</span>";
             echo"</div>";
         } else {
             // Handle the case where the username is empty
-            echo "Greetings!";
+            echo "<span style = 'color:#00A19C;'>Welcome Back!</span>";
         }
     } else {
         // Handle the case where the "username" field is not set
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     // Handle the case where the form was not submitted via POST
     echo "<div class = 'message'>";
-    echo "<span style = 'color:#04AA6D;'>Welcome Back!</span>";
+    echo "<span style = 'color:#00A19C;'>Welcome Back!</span>";
     echo"</div>";
 }
 ?>
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <a href="search.php">Course Search</a>
       <a href="view_schedule.php">View Schedule</a>
       <a href="modify.php">Add/Drop</a>
-      <a href="index.html">Logout</a>
+      <a href="logout.php">Logout</a>
     </div>
     
     <div class = "content-container">
